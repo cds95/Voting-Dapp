@@ -1,4 +1,5 @@
 const { assert } = require("chai");
+const BigNumber = require("bignumber.js")
 
 require('chai')
   .use(require('chai-as-promised'))
@@ -8,15 +9,17 @@ const Election = artifacts.require("./Election.sol");
 
 const electionStates = {
     notStarted: 0,
-    inProgress: 1,
-    ended: 2
+    inProgress: 1
 }
 
 const TEST_ELECTION_NAME = "test-election";
 
 contract("Election", ([accountOne, accountTwo, candidateOne, candidateTwo]) => {
     beforeEach(async () => {
-        this.electionInstance = await Election.new(TEST_ELECTION_NAME);
+        const endDate = new Date();
+        endDate.setHours(endDate.getHours() + 1);
+        const endDateBN = new BigNumber(Math.floor(endDate.getTime() / 1000))
+        this.electionInstance = await Election.new(TEST_ELECTION_NAME, endDateBN);
     })
 
     describe("election attributes on creation", () => {
@@ -105,5 +108,5 @@ contract("Election", ([accountOne, accountTwo, candidateOne, candidateTwo]) => {
                 assert.equal(electionState, electionStates.inProgress);
             });
         });
-    })
+    });
 });

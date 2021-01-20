@@ -7,8 +7,11 @@ contract ElectionFactory {
 
     event ElectionCreated(address);
 
-    function hostNewElection(string memory electionName) external {
-        Election newElection = new Election(electionName);
+    function hostNewElection(
+        string memory electionName,
+        uint256 endTimeInEpochS
+    ) external {
+        Election newElection = new Election(electionName, endTimeInEpochS);
         newElection.transferOwnership(msg.sender);
         elections.push(newElection);
         emit ElectionCreated(address(newElection));

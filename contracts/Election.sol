@@ -8,6 +8,7 @@ contract Election {
     address public winner;
     ElectionState public electionState;
     string public electionName;
+    uint256 endTimeInEpochS;
 
     event ElectionStarted();
     event ElectionEnded(address winner);
@@ -26,7 +27,7 @@ contract Election {
         _;
     }
 
-    modifier isElectionNotStarted() {
+    modifier hasElectionNotStarted() {
         require(electionState == ElectionState.NOT_STARTED);
         _;
     }
@@ -36,10 +37,28 @@ contract Election {
         _;
     }
 
-    constructor(string memory _electionName) {
+    modifier hasNotEnded {
+        require(
+            block.timestamp < endTimeInEpochS,
+            "Election still in progress"
+        );
+        _;
+    }
+
+    modifier hasEnded {
+        require(block.timestamp >= endTimeInEpochS, "Election has not ended");
+        _;
+    }
+
+    constructor(string memory _electionName, uint256 _endTimeInEpochS) {
+        require(
+            block.timestamp < _endTimeInEpochS,
+            "Election must end in the future"
+        );
         electionState = ElectionState.NOT_STARTED;
         owner = msg.sender;
         electionName = _electionName;
+        endTimeInEpochS = _endTimeInEpochS;
     }
 
     function transferOwnership(address newOwner) external isOwner {
@@ -48,7 +67,7 @@ contract Election {
 
     function nominateCandidate(address _candidate)
         external
-        isElectionNotStarted
+        hasElectionNotStarted
         isOwner
     {
         require(_candidate != owner, "Owner cannot nominate self");
@@ -66,13 +85,17 @@ contract Election {
         emit ElectionStarted();
     }
 
-    function endElection() external isOwner {
+    function endElection() external isOwner hasEnded {
         electionState = ElectionState.ENDED;
         winner = getWinner();
         emit ElectionEnded(winner);
     }
 
-    function getWinner() private view returns (address) {
+    function hasElectionEnded() external view returns (bool) {
+        return block.timestamp >= endTimeInEpochS;
+    }
+
+    function getWinner() private view hasEnded returns (address) {
         address winningAddress;
         uint256 largestVoteCount;
         for (uint256 i = 0; i < candidates.length; i++) {
@@ -84,7 +107,7 @@ contract Election {
         return winningAddress;
     }
 
-    function vote(address _candidate) external hasNotVoted {
+    function vote(address _candidate) external hasNotVoted hasNotEnded {
         votes[_candidate] += 1;
         mapping(address => bool) storage participants = electionParticipants;
         participants[msg.sender] = true;
