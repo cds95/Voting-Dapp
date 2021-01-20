@@ -7,6 +7,7 @@ contract Election {
     mapping(address => bool) public electionParticipants;
     address public winner;
     ElectionState public electionState;
+    string public electionName;
 
     event ElectionStarted();
     event ElectionEnded(address winner);
@@ -15,8 +16,8 @@ contract Election {
 
     enum ElectionState {NOT_STARTED, IN_PROGRESS, ENDED}
 
-    modifier isOwner(address a) {
-        require(a == owner, "Only the owner may execute function");
+    modifier isOwner() {
+        require(msg.sender == owner, "Only the owner may execute function");
         _;
     }
 
@@ -30,20 +31,25 @@ contract Election {
         _;
     }
 
-    modifier hasNotVoted(address a) {
-        require(!electionParticipants[a], "Address has already voted");
+    modifier hasNotVoted {
+        require(!electionParticipants[msg.sender], "Address has already voted");
         _;
     }
 
-    constructor() {
+    constructor(string memory _electionName) {
         electionState = ElectionState.NOT_STARTED;
         owner = msg.sender;
+        electionName = _electionName;
+    }
+
+    function transferOwnership(address newOwner) external isOwner {
+        owner = newOwner;
     }
 
     function nominateCandidate(address _candidate)
         external
         isElectionNotStarted
-        isOwner(msg.sender)
+        isOwner
     {
         require(_candidate != owner, "Owner cannot nominate self");
         votes[_candidate] = 0;
@@ -51,7 +57,7 @@ contract Election {
         emit CandidateNominated(_candidate);
     }
 
-    function startElection() external isOwner(msg.sender) {
+    function startElection() external isOwner {
         require(
             candidates.length > 1,
             "An election must have at least 2 candidates"
@@ -60,7 +66,7 @@ contract Election {
         emit ElectionStarted();
     }
 
-    function endElection() external isOwner(msg.sender) {
+    function endElection() external isOwner {
         electionState = ElectionState.ENDED;
         winner = getWinner();
         emit ElectionEnded(winner);
@@ -78,7 +84,7 @@ contract Election {
         return winningAddress;
     }
 
-    function vote(address _candidate) external hasNotVoted(msg.sender) {
+    function vote(address _candidate) external hasNotVoted {
         votes[_candidate] += 1;
         mapping(address => bool) storage participants = electionParticipants;
         participants[msg.sender] = true;
