@@ -12,7 +12,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -38,7 +39,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.7.4+commit.3f05b770\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"get\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_text\",\"type\":\"string\"}],\"name\":\"set\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"text\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/Users/cds95/Documents/voting-dapp/contracts/SimpleStorage.sol\":\"SimpleStorage\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/cds95/Documents/voting-dapp/contracts/SimpleStorage.sol\":{\"keccak256\":\"0xe248e1a4268180cf8ccde56cb9ab0aa15553f19d6e8945ca71947029e71bffd6\",\"urls\":[\"bzz-raw://be5407502e607ab0321c0314c2c410960dad4f1b5afa3b9b1ab7d8bcefda23f2\",\"dweb:/ipfs/QmS3rnSmiXRTUomfmnrNHv6vJJoYHd7bzwRKajE5kFLCoA\"]}},\"version\":1}",
@@ -559,9 +561,17 @@
     "name": "solc",
     "version": "0.7.4+commit.3f05b770.Emscripten.clang"
   },
-  "networks": {},
+  "networks": {
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0xF0D512eb4927572CB752821E0401CdfeC9315a24",
+      "transactionHash": "0x63db2f2239c1be831b05baff2574d19c1141e3aabec115468940bbe2d673fbe9"
+    }
+  },
   "schemaVersion": "3.3.2",
-  "updatedAt": "2021-01-20T01:40:03.681Z",
+  "updatedAt": "2021-01-20T03:58:11.619Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},
