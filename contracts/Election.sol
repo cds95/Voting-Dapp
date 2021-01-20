@@ -8,6 +8,11 @@ contract Election {
     address public winner;
     ElectionState public electionState;
 
+    event ElectionStarted();
+    event ElectionEnded(address winner);
+    event VoteAdded(address candidate, uint256 voteCount);
+    event CandidateNominated(address candidate);
+
     enum ElectionState {NOT_STARTED, IN_PROGRESS, ENDED}
 
     modifier isOwner(address a) {
@@ -43,15 +48,22 @@ contract Election {
         require(_candidate != owner, "Owner cannot nominate self");
         votes[_candidate] = 0;
         candidates.push(_candidate);
+        emit CandidateNominated(_candidate);
     }
 
     function startElection() external isOwner(msg.sender) {
+        require(
+            candidates.length > 1,
+            "An election must have at least 2 candidates"
+        );
         electionState = ElectionState.IN_PROGRESS;
+        emit ElectionStarted();
     }
 
     function endElection() external isOwner(msg.sender) {
         electionState = ElectionState.ENDED;
         winner = getWinner();
+        emit ElectionEnded(winner);
     }
 
     function getWinner() private view returns (address) {
@@ -70,5 +82,6 @@ contract Election {
         votes[_candidate] += 1;
         mapping(address => bool) storage participants = electionParticipants;
         participants[msg.sender] = true;
+        emit VoteAdded(_candidate, votes[_candidate]);
     }
 }
