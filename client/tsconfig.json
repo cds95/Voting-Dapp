@@ -1,23 +1,28 @@
 {
   "compilerOptions": {
-    "target": "es2019",
+    "declaration": true,
+    "noImplicitAny": false,
+    "removeComments": false,
+    "noLib": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es6",
     "lib": [
       "dom",
-      "dom.iterable",
-      "esnext"
+      "es2018"
     ],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "jsx": "react",
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
-    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
   },
   "include": [
     "src"

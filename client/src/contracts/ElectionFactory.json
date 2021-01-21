@@ -31,7 +31,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -62,7 +63,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.7.4+commit.3f05b770\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"ElectionCreated\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"elections\",\"outputs\":[{\"internalType\":\"contract Election\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getElections\",\"outputs\":[{\"internalType\":\"contract Election[]\",\"name\":\"\",\"type\":\"address[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"electionName\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"endTimeInEpochS\",\"type\":\"uint256\"}],\"name\":\"hostNewElection\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/Users/cds95/Documents/voting-dapp/contracts/ElectionFactory.sol\":\"ElectionFactory\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Users/cds95/Documents/voting-dapp/contracts/Election.sol\":{\"keccak256\":\"0xbd785b1b1c7c62c526f3d96ab7d2598651c47ba744c0f59b913c93a3f3b00788\",\"urls\":[\"bzz-raw://7114f80ef09ac517fa14d7eef5b94266d2bf868ef6fd65a60e7ac4b6fa8f23a3\",\"dweb:/ipfs/QmVSknHdYCnPrDqyyvSbg71RqND5x2JisqDmyS9bTc2iTM\"]},\"/Users/cds95/Documents/voting-dapp/contracts/ElectionFactory.sol\":{\"keccak256\":\"0x1173a600026f0290a18949bdeb17d6510630080c9152c69b5ea933416eb7c8e2\",\"urls\":[\"bzz-raw://168cc2da39262a30105643556b09853d7559d6e590df5f31b9b55300c9d08d8b\",\"dweb:/ipfs/Qmdmso3Gh4seZGgdvFHFYG4UVYMujzb13vaQiNFjM5fPmQ\"]}},\"version\":1}",
@@ -1441,12 +1443,13 @@
         }
       },
       "links": {},
-      "address": "0x2E31eb25867307540A142b4d70AbE7fcd4DFcf44",
-      "transactionHash": "0x0aefb60b66cb555d8912523fd4391b43decb6bbb8f2a810d9918b28ec2a32a79"
+      "address": "0x65d33492a669A56968E6493F6589BF478404aEE8",
+      "transactionHash": "0xa1f9702b3f9fa361f28257b240c7248a764de44b26d76e3ef759456da49d8ea6"
     }
   },
   "schemaVersion": "3.3.2",
-  "updatedAt": "2021-01-20T21:10:46.588Z",
+  "updatedAt": "2021-01-21T03:30:16.884Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},
