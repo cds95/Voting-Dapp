@@ -4,6 +4,7 @@ import useWeb3 from './hooks/web3';
 import { Provider } from "react-redux";
 import { store } from "./redux"
 import { setAccountsAction, setWeb3DataAction } from './redux/actions';
+import { Election } from './components/Election';
 
 function App() {
   const { isLoading, isWeb3, web3, accounts } = useWeb3();
@@ -24,7 +25,7 @@ function App() {
         { isLoading ? <div>Loading Web3, accounts, and contract...</div>
         : isWeb3 ? 
           <>
-            <div>Voting Dapp (In Progress)</div>
+            <Election />
           </>
           : <div>
             <p>none web3</p>

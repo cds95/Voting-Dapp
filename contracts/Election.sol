@@ -7,7 +7,7 @@ contract Election {
     mapping(address => bool) public electionParticipants;
     address public winner;
     ElectionState public electionState;
-    string public electionName;
+    bytes32 public electionName;
     uint256 endTimeInEpochS;
 
     event ElectionStarted();
@@ -50,7 +50,7 @@ contract Election {
         _;
     }
 
-    constructor(string memory _electionName, uint256 _endTimeInEpochS) {
+    constructor(bytes32 _electionName, uint256 _endTimeInEpochS) {
         require(
             block.timestamp < _endTimeInEpochS,
             "Election must end in the future"
