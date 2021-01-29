@@ -7,10 +7,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es6",
-    "lib": [
-      "dom",
-      "es2018"
-    ],
+    "lib": ["dom", "es2018"],
     "module": "esnext",
     "moduleResolution": "node",
     "jsx": "react",
@@ -22,9 +19,7 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": true
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

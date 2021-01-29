@@ -99,27 +99,15 @@
   "ast": {
     "absolutePath": "/Users/cds95/Documents/voting-dapp/contracts/ElectionFactory.sol",
     "exportedSymbols": {
-      "Election": [
-        338
-      ],
-      "ElectionFactory": [
-        448
-      ]
+      "Election": [338],
+      "ElectionFactory": [448]
     },
     "id": 449,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 340,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.7",
-          ".0",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.7", ".0", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "0:31:1"
       },
@@ -137,15 +125,11 @@
       {
         "abstract": false,
         "baseContracts": [],
-        "contractDependencies": [
-          338
-        ],
+        "contractDependencies": [338],
         "contractKind": "contract",
         "fullyImplemented": true,
         "id": 448,
-        "linearizedBaseContracts": [
-          448
-        ],
+        "linearizedBaseContracts": [448],
         "name": "ElectionFactory",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -261,9 +245,7 @@
               "src": "280:247:1",
               "statements": [
                 {
-                  "assignments": [
-                    358
-                  ],
+                  "assignments": [358],
                   "declarations": [
                     {
                       "constant": false,
@@ -826,9 +808,7 @@
               "src": "757:283:1",
               "statements": [
                 {
-                  "assignments": [
-                    411
-                  ],
+                  "assignments": [411],
                   "declarations": [
                     {
                       "constant": false,
@@ -871,9 +851,7 @@
                   "src": "767:30:1"
                 },
                 {
-                  "assignments": [
-                    417
-                  ],
+                  "assignments": [417],
                   "declarations": [
                     {
                       "constant": false,
@@ -1107,9 +1085,7 @@
                   },
                   "id": 441,
                   "initializationExpression": {
-                    "assignments": [
-                      420
-                    ],
+                    "assignments": [420],
                     "declarations": [
                       {
                         "constant": false,
@@ -1347,27 +1323,15 @@
   "legacyAST": {
     "absolutePath": "/Users/cds95/Documents/voting-dapp/contracts/ElectionFactory.sol",
     "exportedSymbols": {
-      "Election": [
-        338
-      ],
-      "ElectionFactory": [
-        448
-      ]
+      "Election": [338],
+      "ElectionFactory": [448]
     },
     "id": 449,
     "nodeType": "SourceUnit",
     "nodes": [
       {
         "id": 340,
-        "literals": [
-          "solidity",
-          ">=",
-          "0.7",
-          ".0",
-          "<",
-          "0.8",
-          ".0"
-        ],
+        "literals": ["solidity", ">=", "0.7", ".0", "<", "0.8", ".0"],
         "nodeType": "PragmaDirective",
         "src": "0:31:1"
       },
@@ -1385,15 +1349,11 @@
       {
         "abstract": false,
         "baseContracts": [],
-        "contractDependencies": [
-          338
-        ],
+        "contractDependencies": [338],
         "contractKind": "contract",
         "fullyImplemented": true,
         "id": 448,
-        "linearizedBaseContracts": [
-          448
-        ],
+        "linearizedBaseContracts": [448],
         "name": "ElectionFactory",
         "nodeType": "ContractDefinition",
         "nodes": [
@@ -1509,9 +1469,7 @@
               "src": "280:247:1",
               "statements": [
                 {
-                  "assignments": [
-                    358
-                  ],
+                  "assignments": [358],
                   "declarations": [
                     {
                       "constant": false,
@@ -2074,9 +2032,7 @@
               "src": "757:283:1",
               "statements": [
                 {
-                  "assignments": [
-                    411
-                  ],
+                  "assignments": [411],
                   "declarations": [
                     {
                       "constant": false,
@@ -2119,9 +2075,7 @@
                   "src": "767:30:1"
                 },
                 {
-                  "assignments": [
-                    417
-                  ],
+                  "assignments": [417],
                   "declarations": [
                     {
                       "constant": false,
@@ -2355,9 +2309,7 @@
                   },
                   "id": 441,
                   "initializationExpression": {
-                    "assignments": [
-                      420
-                    ],
+                    "assignments": [420],
                     "declarations": [
                       {
                         "constant": false,
