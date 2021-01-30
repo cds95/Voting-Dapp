@@ -50,6 +50,11 @@ contract Election {
         _;
     }
 
+    modifier isInProgress {
+        require(electionState == ElectionState.IN_PROGRESS, "Election is currently not in progress");
+        _;
+    }
+
     constructor(bytes32 _electionName, uint256 _endTimeInEpochS) {
         require(
             block.timestamp < _endTimeInEpochS,
@@ -107,7 +112,7 @@ contract Election {
         return winningAddress;
     }
 
-    function vote(address _candidate) external hasNotVoted hasNotEnded {
+    function vote(address _candidate) external hasNotVoted hasNotEnded isInProgress {
         votes[_candidate] += 1;
         mapping(address => bool) storage participants = electionParticipants;
         participants[msg.sender] = true;
