@@ -1,10 +1,11 @@
-import { Typography } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import moment from "moment";
 import React from "react";
 import { connect } from "react-redux";
 import { useFetchElection } from "../../hooks/electionHooks";
 import { IReduxState } from "../../redux/types";
-import { nominateCandidate, voteForCandidate } from "../../services/election";
+import { ElectionApi } from "../../services/election";
+import { EElectionState } from "../../types";
 import { ActionTextForm } from "../ActionableTextField";
 import { VotesTable } from "../VotesTable";
 import "./Election.scss";
@@ -26,10 +27,11 @@ export const ElectionComp: React.FunctionComponent<TElectionProps> = ({
   if (isLoadingElection) {
     return <div>Loading election...</div>;
   } else if (election) {
-    const { name, candidates, state, endTimeInEpochS } = election;
+    const { name, candidates, state, endTimeInEpochS, owner } = election;
+    const isOwner = owner === currentUserAddress;
     const nominate = async (candidateAddress: string) => {
       networkId &&
-        (await nominateCandidate(
+        (await ElectionApi.nominateCandidate(
           networkId,
           currentUserAddress,
           candidateAddress
@@ -37,17 +39,33 @@ export const ElectionComp: React.FunctionComponent<TElectionProps> = ({
     };
     const vote = async (candidateAddress: string) => {
       networkId &&
-        (await voteForCandidate(
+        (await ElectionApi.voteForCandidate(
           networkId,
           currentUserAddress,
           candidateAddress
         ));
     };
+    const startElection = async () => {
+      networkId &&
+        (await ElectionApi.startElection(networkId, currentUserAddress));
+    };
     return (
       <div className="election">
         <Typography variant="h2">{name}</Typography>
         <div className="election__information">
-          <Typography variant="h5">Status: {state}</Typography>
+          <Typography variant="h5">
+            <span className="election__status">Status: {state}</span>
+            {isOwner && state === EElectionState.NOT_STARTED && (
+              <Button
+                onClick={startElection}
+                variant="contained"
+                color="primary"
+                className="election__start-btn"
+              >
+                Start Election
+              </Button>
+            )}
+          </Typography>
           <Typography variant="h5">
             Ends On:{" "}
             {moment

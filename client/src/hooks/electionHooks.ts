@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getElection } from "../services/election";
+import { ElectionApi } from "../services/election";
 import { IElection } from "../types";
 
 type TFetchElectionState = {
@@ -20,7 +20,7 @@ export const useFetchElection = (
           election: null,
           isLoadingElection: true,
         });
-        const election = await getElection(networkId);
+        const election = await ElectionApi.getElection(networkId);
         setState({
           election,
           isLoadingElection: false,

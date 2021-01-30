@@ -81,7 +81,7 @@ contract Election {
         emit CandidateNominated(_candidate);
     }
 
-    function startElection() external isOwner {
+    function startElection() external isOwner hasNotEnded {
         require(
             candidates.length > 1,
             "An election must have at least 2 candidates"

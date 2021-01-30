@@ -7,7 +7,14 @@ const getElectionInstance = async (networkId: number) => {
   return getContractInstance(networkId, electionJson);
 };
 
-export const nominateCandidate = async (
+const startElection = async (networkId: number, senderAddress: string) => {
+  const electionInstance = await getElectionInstance(networkId);
+  await electionInstance.methods.startElection().send({
+    from: senderAddress,
+  });
+};
+
+const nominateCandidate = async (
   networkId: number,
   senderAddress: string,
   candidateAddress: string
@@ -18,7 +25,7 @@ export const nominateCandidate = async (
   });
 };
 
-export const voteForCandidate = async (
+const voteForCandidate = async (
   networkId: number,
   senderAddress: string,
   candidateAddress: string
@@ -29,7 +36,7 @@ export const voteForCandidate = async (
   });
 };
 
-export const getElection = async (networkdId: number): Promise<IElection> => {
+const getElection = async (networkdId: number): Promise<IElection> => {
   const electionInstance = await getElectionInstance(networkdId);
   const owner = await electionInstance.methods.owner().call();
   const electionNameHex: string = await electionInstance.methods
@@ -80,4 +87,11 @@ const getCandidateVoteCounts = async (
     candidates.set(address, parseInt(numVotes));
   }
   return candidates;
+};
+
+export const ElectionApi = {
+  startElection,
+  nominateCandidate,
+  voteForCandidate,
+  getElection,
 };
