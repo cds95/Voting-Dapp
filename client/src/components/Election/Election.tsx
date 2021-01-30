@@ -3,8 +3,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { useFetchElection } from "../../hooks/electionHooks";
 import { IReduxState } from "../../redux/types";
-import { nominateCandidate } from "../../services/election";
+import { nominateCandidate, voteForCandidate } from "../../services/election";
 import { ActionTextForm } from "../ActionableTextField";
+import "./Election.scss";
 
 interface IElectionOwnProps {}
 
@@ -33,21 +34,35 @@ export const ElectionComp: React.FunctionComponent<TElectionProps> = ({
       winner,
     } = election;
     const nominate = async (candidateAddress: string) => {
-      if (networkId) {
-        await nominateCandidate(
+      networkId &&
+        (await nominateCandidate(
           networkId,
           currentUserAddress,
           candidateAddress
-        );
-      }
+        ));
+    };
+    const vote = async (candidateAddress: string) => {
+      networkId &&
+        (await voteForCandidate(
+          networkId,
+          currentUserAddress,
+          candidateAddress
+        ));
     };
     return (
-      <div className="election__container">
+      <div className="election">
         <Typography variant="h3">{name}</Typography>
         <ActionTextForm
           label="Candidate Address"
           buttonLabel="Nominate"
           onComplete={nominate}
+          className="election__action-form"
+        />
+        <ActionTextForm
+          label="Candidate Address"
+          buttonLabel="Vote"
+          onComplete={vote}
+          className="election__action-form"
         />
       </div>
     );

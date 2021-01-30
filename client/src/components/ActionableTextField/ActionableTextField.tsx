@@ -6,19 +6,25 @@ interface IActionTextFormProps {
   label: string;
   buttonLabel: string;
   onComplete: (text: string) => void;
+  className?: string;
 }
 
 export const ActionTextForm: React.FunctionComponent<IActionTextFormProps> = ({
   buttonLabel,
   label,
   onComplete,
+  className,
 }) => {
   const [text, setText] = useState("");
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setText(e.target.value);
   const handleOnComplete = () => onComplete(text);
+  let containerClassName = "actionable-text-field";
+  if (className) {
+    containerClassName += ` ${className}`;
+  }
   return (
-    <form className="actionable-text-field">
+    <form className={containerClassName}>
       <TextField
         label={label}
         value={text}

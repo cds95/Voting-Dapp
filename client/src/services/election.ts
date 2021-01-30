@@ -18,6 +18,17 @@ export const nominateCandidate = async (
   });
 };
 
+export const voteForCandidate = async (
+  networkId: number,
+  senderAddress: string,
+  candidateAddress: string
+) => {
+  const electionInstance = await getElectionInstance(networkId);
+  await electionInstance.methods.vote(candidateAddress).send({
+    from: senderAddress,
+  });
+};
+
 export const getElection = async (networkdId: number): Promise<IElection> => {
   const electionInstance = await getElectionInstance(networkdId);
   const owner = await electionInstance.methods.owner().call();
@@ -64,8 +75,10 @@ const getCandidateVoteCounts = async (
     .getCandidates()
     .call();
   for (const address of candidateAddresses) {
-    const numVotes = await electionInstance.methods.votes(address).call();
-    candidates.set(address, numVotes);
+    const numVotes: string = await electionInstance.methods
+      .votes(address)
+      .call();
+    candidates.set(address, parseInt(numVotes));
   }
   return candidates;
 };

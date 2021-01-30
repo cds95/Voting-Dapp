@@ -1,3 +1,8 @@
 .actionable-text-field {
   display: flex;
 }
+
+.actionable-text-field .actionable-text-field__field {
+  width: 400px;
+  margin-right: 20px;
+}
