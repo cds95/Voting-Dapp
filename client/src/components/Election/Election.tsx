@@ -14,8 +14,15 @@ export const ElectionComp: React.FunctionComponent<TElectionProps> = ({
   networkId,
 }) => {
   const { election, isLoadingElection } = useFetchElection(networkId);
-
-  return <div className="election">{election && election.name}</div>;
+  return (
+    <div className="election">
+      {isLoadingElection ? (
+        "Loading election..."
+      ) : (
+        <div className="election__container">{election && election.name}</div>
+      )}
+    </div>
+  );
 };
 
 const mapStateToProps = (state): IElectionReduxStateProps => {

@@ -8,7 +8,7 @@ contract Election {
     address public winner;
     ElectionState public electionState;
     bytes32 public electionName;
-    uint256 endTimeInEpochS;
+    uint256 public endTimeInEpochS;
 
     event ElectionStarted();
     event ElectionEnded(address winner);
@@ -112,5 +112,9 @@ contract Election {
         mapping(address => bool) storage participants = electionParticipants;
         participants[msg.sender] = true;
         emit VoteAdded(_candidate, votes[_candidate]);
+    }
+
+    function getCandidates() external view returns(address[] memory) {
+        return candidates;
     }
 }
