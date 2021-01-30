@@ -46,7 +46,6 @@ export const getElection = async (networkdId: number): Promise<IElection> => {
   return {
     owner,
     name: convertHexToAscii(electionNameHex),
-    address: "",
     state: getElectionState(electionStageInt),
     endTimeInEpochS: parseInt(endTimeInEpochS),
     candidates,

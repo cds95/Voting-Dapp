@@ -1,4 +1,5 @@
 import { Typography } from "@material-ui/core";
+import moment from "moment";
 import React from "react";
 import { connect } from "react-redux";
 import { useFetchElection } from "../../hooks/electionHooks";
@@ -25,15 +26,7 @@ export const ElectionComp: React.FunctionComponent<TElectionProps> = ({
   if (isLoadingElection) {
     return <div>Loading election...</div>;
   } else if (election) {
-    const {
-      name,
-      owner,
-      candidates,
-      address,
-      state,
-      endTimeInEpochS,
-      winner,
-    } = election;
+    const { name, candidates, state, endTimeInEpochS } = election;
     const nominate = async (candidateAddress: string) => {
       networkId &&
         (await nominateCandidate(
@@ -52,7 +45,16 @@ export const ElectionComp: React.FunctionComponent<TElectionProps> = ({
     };
     return (
       <div className="election">
-        <Typography variant="h3">{name}</Typography>
+        <Typography variant="h2">{name}</Typography>
+        <div className="election__information">
+          <Typography variant="h5">Status: {state}</Typography>
+          <Typography variant="h5">
+            Ends On:{" "}
+            {moment
+              .unix(endTimeInEpochS)
+              .format("MMMM Do YYYY, h:mm:ss a [GMT]")}
+          </Typography>
+        </div>
         <VotesTable voteCounts={candidates} className="election__votes-table" />
         <ActionTextForm
           label="Candidate Address"
@@ -77,7 +79,7 @@ const mapStateToProps = (state: IReduxState): IElectionReduxStateProps => {
   const { web3 } = state;
   const { networkId, accounts } = web3;
   return {
-    networkId: state.web3.networkId,
+    networkId: networkId,
     currentUserAddress: accounts[0],
   };
 };
