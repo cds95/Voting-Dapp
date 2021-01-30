@@ -6,6 +6,7 @@ import { useFetchElection } from "../../hooks/electionHooks";
 import { IReduxState } from "../../redux/types";
 import { ElectionApi } from "../../services/election";
 import { EElectionState } from "../../types";
+import { ActionableDropdown } from "../ActionableDropdown";
 import { ActionTextForm } from "../ActionableTextField";
 import { VotesTable } from "../VotesTable";
 import "./Election.scss";
@@ -68,24 +69,27 @@ export const ElectionComp: React.FunctionComponent<TElectionProps> = ({
           </Typography>
           <Typography variant="h5">
             Ends On:{" "}
-            {moment
-              .unix(endTimeInEpochS)
-              .format("MMMM Do YYYY, h:mm:ss a [GMT]")}
+            {moment.unix(endTimeInEpochS).format("MMMM Do YYYY, h:mm:ss a")}
           </Typography>
         </div>
         <VotesTable voteCounts={candidates} className="election__votes-table" />
-        <ActionTextForm
-          label="Candidate Address"
-          buttonLabel="Nominate"
-          onComplete={nominate}
-          className="election__action-form"
-        />
-        <ActionTextForm
-          label="Candidate Address"
-          buttonLabel="Vote"
-          onComplete={vote}
-          className="election__action-form"
-        />
+        {state == EElectionState.NOT_STARTED && (
+          <ActionTextForm
+            label="Candidate Address"
+            buttonLabel="Nominate"
+            onComplete={nominate}
+            className="election__action-form"
+          />
+        )}
+        {state == EElectionState.IN_PROGRESS && (
+          <ActionableDropdown
+            label="Candidate Address"
+            buttonLabel="Vote"
+            onComplete={vote}
+            className="election__action-form"
+            options={Array.from(candidates.keys())}
+          />
+        )}
       </div>
     );
   } else {
