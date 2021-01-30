@@ -1,6 +1,6 @@
 import { SET_ACCOUNTS, SET_WEB3_DATA, TWeb3ReduxStateAction } from "../types";
 
-interface IWeb3ReduxState {
+export interface IWeb3ReduxState {
   networkId: number | null;
   accounts: string[];
 }

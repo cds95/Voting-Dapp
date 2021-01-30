@@ -3,12 +3,24 @@ import electionJson from "../contracts/Election.json";
 import { getContractInstance } from "./contractWrapper";
 import { convertHexToAscii } from "../utils/hexAsciiConverters";
 
-const getElectionInstance = async (networkId: string) => {
+const getElectionInstance = async (networkId: number) => {
   return getContractInstance(networkId, electionJson);
 };
 
-export const getElection = async (networkdId: string): Promise<IElection> => {
+export const nominateCandidate = async (
+  networkId: number,
+  senderAddress: string,
+  candidateAddress: string
+) => {
+  const electionInstance = await getElectionInstance(networkId);
+  await electionInstance.methods.nominateCandidate(candidateAddress).send({
+    from: senderAddress,
+  });
+};
+
+export const getElection = async (networkdId: number): Promise<IElection> => {
   const electionInstance = await getElectionInstance(networkdId);
+  const owner = await electionInstance.methods.owner().call();
   const electionNameHex: string = await electionInstance.methods
     .electionName()
     .call();
@@ -21,6 +33,7 @@ export const getElection = async (networkdId: string): Promise<IElection> => {
   const candidates = await getCandidateVoteCounts(electionInstance);
   const winner: string = await electionInstance.methods.winner().call();
   return {
+    owner,
     name: convertHexToAscii(electionNameHex),
     address: "",
     state: getElectionState(electionStageInt),

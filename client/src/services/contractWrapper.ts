@@ -1,7 +1,7 @@
 import getWeb3 from "../utils/getWeb3";
 
 export const getContractInstance = async (
-  networkId: string,
+  networkId: number,
   contractJson: any
 ) => {
   const { networks, abi } = contractJson;

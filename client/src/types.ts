@@ -1,4 +1,5 @@
 export interface IElection {
+  owner: string;
   name: string;
   address: string;
   state: EElectionState;

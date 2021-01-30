@@ -6,7 +6,9 @@ type TFetchElectionState = {
   election: IElection | null;
   isLoadingElection: boolean;
 };
-export const useFetchElection = (networkId: string): TFetchElectionState => {
+export const useFetchElection = (
+  networkId: number | null
+): TFetchElectionState => {
   const [state, setState] = useState<TFetchElectionState>({
     election: null,
     isLoadingElection: false,

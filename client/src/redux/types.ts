@@ -11,3 +11,12 @@ export interface ISetAccountsActionData {
 }
 
 export type TWeb3ReduxStateAction = ISetWeb3ActionData | ISetAccountsActionData;
+
+export interface IWeb3ReduxState {
+  networkId: number | null;
+  accounts: string[];
+}
+
+export interface IReduxState {
+  web3: IWeb3ReduxState;
+}
