@@ -5,6 +5,7 @@ import { useFetchElection } from "../../hooks/electionHooks";
 import { IReduxState } from "../../redux/types";
 import { nominateCandidate, voteForCandidate } from "../../services/election";
 import { ActionTextForm } from "../ActionableTextField";
+import { VotesTable } from "../VotesTable";
 import "./Election.scss";
 
 interface IElectionOwnProps {}
@@ -52,6 +53,7 @@ export const ElectionComp: React.FunctionComponent<TElectionProps> = ({
     return (
       <div className="election">
         <Typography variant="h3">{name}</Typography>
+        <VotesTable voteCounts={candidates} className="election__votes-table" />
         <ActionTextForm
           label="Candidate Address"
           buttonLabel="Nominate"
