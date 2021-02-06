@@ -4,6 +4,7 @@ import "./Election.sol";
 
 contract ElectionFactory {
     Election[] public elections;
+    bytes32[] electionNames;
     uint256 numElections;
 
     event ElectionCreated(address);
@@ -12,26 +13,14 @@ contract ElectionFactory {
         external
     {
         Election newElection = new Election(electionName, endTimeInEpochS);
+        electionNames.push(electionName);
         newElection.transferOwnership(msg.sender);
         elections.push(newElection);
         numElections++;
         emit ElectionCreated(address(newElection));
     }
 
-    function getElections() external view returns (Election[] memory) {
-        return elections;
-    }
-
-    function getDetailedElections()
-        external
-        view
-        returns (bytes32[] memory, uint256[] memory)
-    {
-        bytes32[] memory electionNames;
-        uint256[] memory electionEndTimesInEpochS;
-        for (uint256 i = 0; i < elections.length; i++) {
-            electionNames[i] = elections[i].electionName();
-        }
-        return (electionNames, electionEndTimesInEpochS);
+    function getElections() external view returns (bytes32[] memory, Election[] memory) {
+        return (electionNames, elections);
     }
 }

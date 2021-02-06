@@ -1,6 +1,10 @@
-export interface IElection {
-  owner: string;
+export interface IElectionBase {
   name: string;
+  address?: string;
+}
+
+export interface IElectionDetailed extends IElectionBase {
+  owner: string;
   state: EElectionState;
   endTimeInEpochS: number;
   candidates: Map<string, number>;

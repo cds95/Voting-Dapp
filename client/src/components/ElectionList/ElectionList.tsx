@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { useFetchAllElections } from "../../hooks/electionHooks";
 import { IReduxState } from "../../redux/types";
 import "./ElectionList.scss";
+import { ElectionListRow } from "./ElectionListRow";
 
 interface IElectionListCompReduxStateProps {
   networkId: number | null;
@@ -13,8 +14,17 @@ type TElectionListProps = IElectionListCompReduxStateProps;
 export const ElectionListComp: React.FunctionComponent<TElectionListProps> = ({
   networkId,
 }) => {
-  useFetchAllElections(networkId);
-  return <div>Election List</div>;
+  const { elections, isLoadingElections } = useFetchAllElections(networkId);
+  if (isLoadingElections) {
+    return <div>Loading elections...</div>;
+  }
+  return (
+    <ul className="election-list">
+      {elections.map((election) => (
+        <ElectionListRow election={election} key={election.address} />
+      ))}
+    </ul>
+  );
 };
 
 const mapStateToProps = (

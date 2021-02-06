@@ -1,9 +1,9 @@
-import { EElectionState, IElection } from "../types";
+import { EElectionState, IElectionBase, IElectionDetailed } from "../types";
 import electionJson from "../contracts/Election.json";
 import electionFactoryJson from "../contracts/ElectionFactory.json";
 import { getContractInstance } from "./contractWrapper";
 import { convertHexToAscii } from "../utils/hexAsciiConverters";
-import { asciiToHexa } from "./hexadecimalUtil";
+import { asciiToHexa, hexaToAscii } from "./hexadecimalUtil";
 
 const getElectionInstance = async (networkId: number) => {
   return getContractInstance(networkId, electionJson);
@@ -13,12 +13,19 @@ const getElectionFactoryInstance = async (networkId: number) => {
   return getContractInstance(networkId, electionFactoryJson);
 };
 
-const getAllElections = async (networkId: number) => {
+const getAllElections = async (networkId: number): Promise<IElectionBase[]> => {
   const electionFactoryInstance = await getElectionFactoryInstance(networkId);
-  const elections = await electionFactoryInstance.methods
-    .getDetailedElections()
-    .call();
-  console.log(elections);
+  const elections = await electionFactoryInstance.methods.getElections().call();
+  const electionNames = elections["0"].map((hexName) => hexaToAscii(hexName));
+  const addresses = elections["1"];
+  const result: IElectionBase[] = [];
+  for (let i = 0; i < electionNames.length; i++) {
+    result[i] = {
+      address: addresses[i],
+      name: electionNames[i],
+    };
+  }
+  return result;
 };
 
 const hostElection = async (
@@ -65,7 +72,7 @@ const voteForCandidate = async (
   });
 };
 
-const getElection = async (networkdId: number): Promise<IElection> => {
+const getElection = async (networkdId: number): Promise<IElectionDetailed> => {
   const electionInstance = await getElectionInstance(networkdId);
   const owner = await electionInstance.methods.owner().call();
   const electionNameHex: string = await electionInstance.methods

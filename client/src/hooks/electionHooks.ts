@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { ElectionApi } from "../services/election";
-import { IElection } from "../types";
+import { IElectionBase, IElectionDetailed } from "../types";
 
 type TFetchElectionState = {
-  election: IElection | null;
+  election: IElectionDetailed | null;
   isLoadingElection: boolean;
 };
 
@@ -32,14 +32,30 @@ export const useFetchElection = (
   return state;
 };
 
+type TFetchAllElectionsState = {
+  elections: IElectionBase[];
+  isLoadingElections: boolean;
+};
+
 export const useFetchAllElections = (networkId: number | null) => {
-  const [state, setState] = useState(false);
+  const [state, setState] = useState<TFetchAllElectionsState>({
+    isLoadingElections: false,
+    elections: [],
+  });
   useEffect(() => {
     (async () => {
       if (networkId) {
+        setState({
+          isLoadingElections: true,
+          elections: [],
+        });
         const elections = await ElectionApi.getAllElections(networkId);
+        setState({
+          isLoadingElections: false,
+          elections,
+        });
       }
     })();
-  });
+  }, [networkId]);
   return state;
 };
