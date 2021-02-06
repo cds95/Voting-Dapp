@@ -5,6 +5,9 @@ import { Provider } from "react-redux";
 import { store } from "./redux";
 import { setAccountsAction, setWeb3DataAction } from "./redux/actions";
 import { Election } from "./components/Election";
+import { ElectionList } from "./components/ElectionList";
+import { Button } from "@material-ui/core";
+import { LandingPage } from "./pages/LandingPage";
 
 function App() {
   const { isLoading, isWeb3, web3, accounts } = useWeb3();
@@ -25,9 +28,7 @@ function App() {
         {isLoading ? (
           <div>Loading Web3, accounts, and contract...</div>
         ) : isWeb3 ? (
-          <>
-            <Election />
-          </>
+          <LandingPage />
         ) : (
           <div>
             <p>none web3</p>

@@ -1,10 +1,39 @@
 import { EElectionState, IElection } from "../types";
 import electionJson from "../contracts/Election.json";
+import electionFactoryJson from "../contracts/ElectionFactory.json";
 import { getContractInstance } from "./contractWrapper";
 import { convertHexToAscii } from "../utils/hexAsciiConverters";
+import { asciiToHexa } from "./hexadecimalUtil";
 
 const getElectionInstance = async (networkId: number) => {
   return getContractInstance(networkId, electionJson);
+};
+
+const getElectionFactoryInstance = async (networkId: number) => {
+  return getContractInstance(networkId, electionFactoryJson);
+};
+
+const getAllElections = async (networkId: number) => {
+  const electionFactoryInstance = await getElectionFactoryInstance(networkId);
+  const elections = await electionFactoryInstance.methods
+    .getDetailedElections()
+    .call();
+  console.log(elections);
+};
+
+const hostElection = async (
+  networkId: number,
+  senderAddress: string,
+  electionName: string,
+  endTimeInEpochS: number
+) => {
+  const electionFactoryInstance = await getElectionFactoryInstance(networkId);
+  const electionNameHex = asciiToHexa(electionName);
+  await electionFactoryInstance.methods
+    .hostNewElection(electionNameHex, endTimeInEpochS)
+    .send({
+      from: senderAddress,
+    });
 };
 
 const startElection = async (networkId: number, senderAddress: string) => {
@@ -94,4 +123,6 @@ export const ElectionApi = {
   nominateCandidate,
   voteForCandidate,
   getElection,
+  getAllElections,
+  hostElection,
 };

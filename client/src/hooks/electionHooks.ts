@@ -6,6 +6,7 @@ type TFetchElectionState = {
   election: IElection | null;
   isLoadingElection: boolean;
 };
+
 export const useFetchElection = (
   networkId: number | null
 ): TFetchElectionState => {
@@ -28,5 +29,17 @@ export const useFetchElection = (
       }
     })();
   }, [networkId]);
+  return state;
+};
+
+export const useFetchAllElections = (networkId: number | null) => {
+  const [state, setState] = useState(false);
+  useEffect(() => {
+    (async () => {
+      if (networkId) {
+        const elections = await ElectionApi.getAllElections(networkId);
+      }
+    })();
+  });
   return state;
 };
