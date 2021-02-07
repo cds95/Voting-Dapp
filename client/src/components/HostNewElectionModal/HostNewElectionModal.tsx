@@ -89,6 +89,9 @@ export const HostNewElectionModalComp: React.FunctionComponent<THostNewElectionM
         </form>
       </DialogContent>
       <DialogActions>
+        <Button onClick={onClose} variant="contained">
+          Cancel
+        </Button>
         <Button onClick={hostNewElection} variant="contained" color="primary">
           Host Election
         </Button>
