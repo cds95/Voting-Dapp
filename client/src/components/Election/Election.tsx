@@ -2,6 +2,7 @@ import { Button, Typography } from "@material-ui/core";
 import moment from "moment";
 import React from "react";
 import { connect } from "react-redux";
+import { useParams } from "react-router-dom";
 import { useFetchElection } from "../../hooks/electionHooks";
 import { IReduxState } from "../../redux/types";
 import { ElectionApi } from "../../services/election";
@@ -14,41 +15,37 @@ import "./Election.scss";
 interface IElectionOwnProps {}
 
 interface IElectionReduxStateProps {
-  networkId: number | null;
   currentUserAddress: string;
 }
 
 type TElectionProps = IElectionOwnProps & IElectionReduxStateProps;
 
 export const ElectionComp: React.FunctionComponent<TElectionProps> = ({
-  networkId,
   currentUserAddress,
 }) => {
-  const { election, isLoadingElection } = useFetchElection(networkId);
+  const { electionAddress } = useParams();
+  const { election, isLoadingElection } = useFetchElection(electionAddress);
   if (isLoadingElection) {
     return <div>Loading election...</div>;
   } else if (election) {
     const { name, candidates, state, endTimeInEpochS, owner } = election;
     const isOwner = owner === currentUserAddress;
     const nominate = async (candidateAddress: string) => {
-      networkId &&
-        (await ElectionApi.nominateCandidate(
-          networkId,
-          currentUserAddress,
-          candidateAddress
-        ));
+      await ElectionApi.nominateCandidate(
+        currentUserAddress,
+        candidateAddress,
+        electionAddress
+      );
     };
     const vote = async (candidateAddress: string) => {
-      networkId &&
-        (await ElectionApi.voteForCandidate(
-          networkId,
-          currentUserAddress,
-          candidateAddress
-        ));
+      await ElectionApi.voteForCandidate(
+        currentUserAddress,
+        candidateAddress,
+        electionAddress
+      );
     };
     const startElection = async () => {
-      networkId &&
-        (await ElectionApi.startElection(networkId, currentUserAddress));
+      await ElectionApi.startElection(currentUserAddress, electionAddress);
     };
     return (
       <div className="election">
@@ -99,9 +96,8 @@ export const ElectionComp: React.FunctionComponent<TElectionProps> = ({
 
 const mapStateToProps = (state: IReduxState): IElectionReduxStateProps => {
   const { web3 } = state;
-  const { networkId, accounts } = web3;
+  const { accounts } = web3;
   return {
-    networkId: networkId,
     currentUserAddress: accounts[0],
   };
 };

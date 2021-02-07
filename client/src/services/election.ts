@@ -1,12 +1,15 @@
 import { EElectionState, IElectionBase, IElectionDetailed } from "../types";
 import electionJson from "../contracts/Election.json";
 import electionFactoryJson from "../contracts/ElectionFactory.json";
-import { getContractInstance } from "./contractWrapper";
+import {
+  getContractInstance,
+  getContractInstanceAtAddress,
+} from "./contractWrapper";
 import { convertHexToAscii } from "../utils/hexAsciiConverters";
 import { asciiToHexa, hexaToAscii } from "./hexadecimalUtil";
 
-const getElectionInstance = async (networkId: number) => {
-  return getContractInstance(networkId, electionJson);
+const getElectionInstance = async (address: string) => {
+  return getContractInstanceAtAddress(electionJson, address);
 };
 
 const getElectionFactoryInstance = async (networkId: number) => {
@@ -43,37 +46,42 @@ const hostElection = async (
     });
 };
 
-const startElection = async (networkId: number, senderAddress: string) => {
-  const electionInstance = await getElectionInstance(networkId);
+const startElection = async (
+  senderAddress: string,
+  electionAddress: string
+) => {
+  const electionInstance = await getElectionInstance(electionAddress);
   await electionInstance.methods.startElection().send({
     from: senderAddress,
   });
 };
 
 const nominateCandidate = async (
-  networkId: number,
   senderAddress: string,
-  candidateAddress: string
+  candidateAddress: string,
+  electionAddress: string
 ) => {
-  const electionInstance = await getElectionInstance(networkId);
+  const electionInstance = await getElectionInstance(electionAddress);
   await electionInstance.methods.nominateCandidate(candidateAddress).send({
     from: senderAddress,
   });
 };
 
 const voteForCandidate = async (
-  networkId: number,
   senderAddress: string,
-  candidateAddress: string
+  candidateAddress: string,
+  electionAddress: string
 ) => {
-  const electionInstance = await getElectionInstance(networkId);
+  const electionInstance = await getElectionInstance(electionAddress);
   await electionInstance.methods.vote(candidateAddress).send({
     from: senderAddress,
   });
 };
 
-const getElection = async (networkdId: number): Promise<IElectionDetailed> => {
-  const electionInstance = await getElectionInstance(networkdId);
+const getElection = async (
+  electionAddress: string
+): Promise<IElectionDetailed> => {
+  const electionInstance = await getElectionInstance(electionAddress);
   const owner = await electionInstance.methods.owner().call();
   const electionNameHex: string = await electionInstance.methods
     .electionName()

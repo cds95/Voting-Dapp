@@ -8,7 +8,7 @@ type TFetchElectionState = {
 };
 
 export const useFetchElection = (
-  networkId: number | null
+  electionAddress: string
 ): TFetchElectionState => {
   const [state, setState] = useState<TFetchElectionState>({
     election: null,
@@ -16,19 +16,17 @@ export const useFetchElection = (
   });
   useEffect(() => {
     (async () => {
-      if (networkId) {
-        setState({
-          election: null,
-          isLoadingElection: true,
-        });
-        const election = await ElectionApi.getElection(networkId);
-        setState({
-          election,
-          isLoadingElection: false,
-        });
-      }
+      setState({
+        election: null,
+        isLoadingElection: true,
+      });
+      const election = await ElectionApi.getElection(electionAddress);
+      setState({
+        election,
+        isLoadingElection: false,
+      });
     })();
-  }, [networkId]);
+  }, []);
   return state;
 };
 

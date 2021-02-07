@@ -4,10 +4,9 @@ import useWeb3 from "./hooks/web3";
 import { Provider } from "react-redux";
 import { store } from "./redux";
 import { setAccountsAction, setWeb3DataAction } from "./redux/actions";
-import { Election } from "./components/Election";
-import { ElectionList } from "./components/ElectionList";
-import { Button } from "@material-ui/core";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { LandingPage } from "./pages/LandingPage";
+import { Election } from "./components/Election";
 
 function App() {
   const { isLoading, isWeb3, web3, accounts } = useWeb3();
@@ -28,7 +27,12 @@ function App() {
         {isLoading ? (
           <div>Loading Web3, accounts, and contract...</div>
         ) : isWeb3 ? (
-          <LandingPage />
+          <Router>
+            <Switch>
+              <Route exact path="/" children={<LandingPage />} />
+              <Route path="/:electionAddress" children={<Election />} />
+            </Switch>
+          </Router>
         ) : (
           <div>
             <p>none web3</p>
