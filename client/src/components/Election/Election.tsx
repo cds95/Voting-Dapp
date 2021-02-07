@@ -9,6 +9,7 @@ import { ElectionApi } from "../../services/election";
 import { EElectionState } from "../../types";
 import { ActionableDropdown } from "../ActionableDropdown";
 import { ActionTextForm } from "../ActionableTextField";
+import { ElectionStatus } from "../ElectionStatus";
 import { VotesTable } from "../VotesTable";
 import "./Election.scss";
 
@@ -49,21 +50,21 @@ export const ElectionComp: React.FunctionComponent<TElectionProps> = ({
     };
     return (
       <div className="election">
-        <Typography variant="h2">{name}</Typography>
+        <Typography variant="h2">
+          {name}{" "}
+          {isOwner && state === EElectionState.NOT_STARTED && (
+            <Button
+              onClick={startElection}
+              variant="contained"
+              color="primary"
+              className="election__start-btn"
+            >
+              Start Election
+            </Button>
+          )}
+        </Typography>
         <div className="election__information">
-          <Typography variant="h5">
-            <span className="election__status">Status: {state}</span>
-            {isOwner && state === EElectionState.NOT_STARTED && (
-              <Button
-                onClick={startElection}
-                variant="contained"
-                color="primary"
-                className="election__start-btn"
-              >
-                Start Election
-              </Button>
-            )}
-          </Typography>
+          <ElectionStatus status={state} />
           <Typography variant="h5">
             Ends On:{" "}
             {moment.unix(endTimeInEpochS).format("MMMM Do YYYY, h:mm:ss a")}

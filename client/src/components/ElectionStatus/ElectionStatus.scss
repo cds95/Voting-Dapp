@@ -1,0 +1,23 @@
+.election-status {
+  display: flex;
+  align-items: center;
+
+  &.election-status--not-started .election-status__icon {
+    background: #736f6f;
+  }
+
+  &.election-status--in-progress .election-status__icon {
+    background: #4ced77;
+  }
+
+  &.election-status--ended .election-status__icon {
+    background: #ed0707;
+  }
+}
+
+.election-status__icon {
+  border-radius: 50%;
+  min-width: 15px;
+  min-height: 15px;
+  margin-left: 15px;
+}

@@ -12,6 +12,7 @@ import { useFetchAllElections } from "../../hooks/electionHooks";
 import { IReduxState } from "../../redux/types";
 import "./ElectionList.scss";
 import { Link } from "react-router-dom";
+import { ElectionStatus } from "../ElectionStatus";
 
 interface IElectionListCompReduxStateProps {
   networkId: number | null;
@@ -28,16 +29,19 @@ export const ElectionListComp: React.FunctionComponent<TElectionListProps> = ({
   }
   return (
     <div className="election-list">
-      {elections.map(({ address, name }) => (
-        <Card key={address} className="election-list__row">
-          <CardContent className="election-list-row__content">
-            <Typography variant="h5">
-              <Link to={`/${address}`} className="election-list__row-name">
-                {name}
-              </Link>
-            </Typography>
-          </CardContent>
-        </Card>
+      {elections.map(({ address, name, state }) => (
+        <Link
+          to={`/${address}`}
+          className="election-list__row-name"
+          key={address}
+        >
+          <Card key={address} className="election-list__row">
+            <CardContent className="election-list-row__content">
+              <Typography variant="h5">{name}</Typography>
+              <ElectionStatus status={state} />
+            </CardContent>
+          </Card>
+        </Link>
       ))}
     </div>
   );
