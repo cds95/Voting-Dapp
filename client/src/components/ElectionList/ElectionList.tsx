@@ -1,4 +1,11 @@
-import { List, ListItem, ListItemText } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@material-ui/core";
 import React from "react";
 import { connect } from "react-redux";
 import { useFetchAllElections } from "../../hooks/electionHooks";
@@ -20,13 +27,19 @@ export const ElectionListComp: React.FunctionComponent<TElectionListProps> = ({
     return <div>Loading elections...</div>;
   }
   return (
-    <List className="election-list" component="nav">
+    <div className="election-list">
       {elections.map(({ address, name }) => (
-        <ListItem key={address} button={true} className="election-list__item">
-          <Link to={`/${address}`}>{name}</Link>
-        </ListItem>
+        <Card key={address} className="election-list__row">
+          <CardContent className="election-list-row__content">
+            <Typography variant="h5">
+              <Link to={`/${address}`} className="election-list__row-name">
+                {name}
+              </Link>
+            </Typography>
+          </CardContent>
+        </Card>
       ))}
-    </List>
+    </div>
   );
 };
 

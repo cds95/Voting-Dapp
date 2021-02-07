@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { ElectionApi } from "../services/election";
-import { IElectionBase, IElectionDetailed } from "../types";
+import { IElection } from "../types";
 
 type TFetchElectionState = {
-  election: IElectionDetailed | null;
+  election: IElection | null;
   isLoadingElection: boolean;
 };
 
@@ -31,7 +31,7 @@ export const useFetchElection = (
 };
 
 type TFetchAllElectionsState = {
-  elections: IElectionBase[];
+  elections: IElection[];
   isLoadingElections: boolean;
 };
 

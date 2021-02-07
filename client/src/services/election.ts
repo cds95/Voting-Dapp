@@ -1,4 +1,4 @@
-import { EElectionState, IElectionBase, IElectionDetailed } from "../types";
+import { EElectionState, IElection } from "../types";
 import electionJson from "../contracts/Election.json";
 import electionFactoryJson from "../contracts/ElectionFactory.json";
 import {
@@ -6,7 +6,7 @@ import {
   getContractInstanceAtAddress,
 } from "./contractWrapper";
 import { convertHexToAscii } from "../utils/hexAsciiConverters";
-import { asciiToHexa, hexaToAscii } from "./hexadecimalUtil";
+import { asciiToHexa } from "./hexadecimalUtil";
 
 const getElectionInstance = async (address: string) => {
   return getContractInstanceAtAddress(electionJson, address);
@@ -16,17 +16,17 @@ const getElectionFactoryInstance = async (networkId: number) => {
   return getContractInstance(networkId, electionFactoryJson);
 };
 
-const getAllElections = async (networkId: number): Promise<IElectionBase[]> => {
+const getAllElections = async (networkId: number): Promise<IElection[]> => {
   const electionFactoryInstance = await getElectionFactoryInstance(networkId);
   const elections = await electionFactoryInstance.methods.getElections().call();
-  const electionNames = elections["0"].map((hexName) => hexaToAscii(hexName));
   const addresses = elections["1"];
-  const result: IElectionBase[] = [];
-  for (let i = 0; i < electionNames.length; i++) {
-    result[i] = {
-      address: addresses[i],
-      name: electionNames[i],
-    };
+  const result: IElection[] = [];
+  for (const electionAddress of addresses) {
+    const electionInformation = await getElection(electionAddress);
+    result.push({
+      ...electionInformation,
+      address: electionAddress,
+    });
   }
   return result;
 };
@@ -78,9 +78,7 @@ const voteForCandidate = async (
   });
 };
 
-const getElection = async (
-  electionAddress: string
-): Promise<IElectionDetailed> => {
+const getElection = async (electionAddress: string): Promise<IElection> => {
   const electionInstance = await getElectionInstance(electionAddress);
   const owner = await electionInstance.methods.owner().call();
   const electionNameHex: string = await electionInstance.methods
