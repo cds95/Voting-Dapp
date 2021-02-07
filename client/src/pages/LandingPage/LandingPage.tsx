@@ -1,48 +1,30 @@
-import { Button } from "@material-ui/core";
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { Button, Typography } from "@material-ui/core";
+import React, { useState } from "react";
 import { ElectionList } from "../../components/ElectionList";
-import useWeb3 from "../../hooks/web3";
-import { IReduxState } from "../../redux/types";
-import { ElectionApi } from "../../services/election";
+import { HostNewElectionModal } from "../../components/HostNewElectionModal";
+import "./LandingPage.scss";
 
-interface ILandingPageProps {}
-
-interface ILandingPageReduxStateProps {
-  networkId: number | null;
-  currentUserAddress: string;
-}
-
-type TLandingPageProps = ILandingPageProps & ILandingPageReduxStateProps;
-
-export const LandingPageComp: React.FunctionComponent<TLandingPageProps> = ({
-  networkId,
-  currentUserAddress,
-}) => {
-  const { web3 } = useWeb3();
-  const hostNewElection = () => {
-    if (networkId) {
-      ElectionApi.hostElection(
-        networkId,
-        currentUserAddress,
-        "election one",
-        1644186711
-      );
-    }
-  };
+export const LandingPage: React.FunctionComponent<{}> = () => {
+  const [isHostNewElectionModalOpen, setIsHostNewElectionModalOpen] = useState(
+    false
+  );
+  const closeModal = () => setIsHostNewElectionModalOpen(false);
+  const openModal = () => setIsHostNewElectionModalOpen(true);
   return (
     <div className="landing-page">
-      <Button onClick={hostNewElection}>Host</Button>
+      <HostNewElectionModal
+        isOpen={isHostNewElectionModalOpen}
+        onClose={closeModal}
+      />
+      <div className="landing-page__header">
+        <Typography variant="h2">Current Elections</Typography>
+        <div className="landing-page__header-right">
+          <Button onClick={openModal} variant="contained" color="primary">
+            Host
+          </Button>
+        </div>
+      </div>
       <ElectionList />
     </div>
   );
 };
-
-const mapStateToProps = (state: IReduxState): ILandingPageReduxStateProps => {
-  return {
-    networkId: state.web3.networkId,
-    currentUserAddress: state.web3.accounts[0],
-  };
-};
-
-export const LandingPage = connect(mapStateToProps)(LandingPageComp);

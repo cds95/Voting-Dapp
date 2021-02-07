@@ -1,9 +1,10 @@
+import { List, ListItem, ListItemText } from "@material-ui/core";
 import React from "react";
 import { connect } from "react-redux";
 import { useFetchAllElections } from "../../hooks/electionHooks";
 import { IReduxState } from "../../redux/types";
 import "./ElectionList.scss";
-import { ElectionListRow } from "./ElectionListRow";
+import { Link } from "react-router-dom";
 
 interface IElectionListCompReduxStateProps {
   networkId: number | null;
@@ -19,11 +20,13 @@ export const ElectionListComp: React.FunctionComponent<TElectionListProps> = ({
     return <div>Loading elections...</div>;
   }
   return (
-    <ul className="election-list">
-      {elections.map((election) => (
-        <ElectionListRow election={election} key={election.address} />
+    <List className="election-list" component="nav">
+      {elections.map(({ address, name }) => (
+        <ListItem key={address} button={true} className="election-list__item">
+          <Link to={`/${address}`}>{name}</Link>
+        </ListItem>
       ))}
-    </ul>
+    </List>
   );
 };
 
